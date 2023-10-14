@@ -1,3 +1,4 @@
+import os
 intro = """
 pytrading ver 0.0.1 by Haeohreum Kim
 Anything from pytrading shall not be misconstrued as financial advice.
@@ -31,10 +32,43 @@ Commands for analysis loop:
     awsm: Use the awesome oscillator strategy
 """
 
-introLoop = """
+infoLoop = """
+Dates must be given in: YYYY-MM-DD format.
+Interval must be given in days, as an integer.
 Commands for info loop:
+    incomestmt: prints income statement(s)
+    balancesheet: prints balance sheet(s)
+    cashflow: prints cash flow statement(s)
+    historic <date> <interval>: prints historic price data, with date and interval.
 """
 
 exitStatement = """
 Thank you for using pytrading. See you next time!
 """
+
+
+def commandHelp():
+    os.system('clear')
+    user_input = ''
+    print("q to exit")
+    while user_input != 'q':
+        print(commandLoop)
+        user_input = input('')
+
+
+def analyseHelp():
+    os.system('clear')
+    user_input = ''
+    print("q to exit")
+    while user_input != 'q':
+        print(analyseLoop)
+        user_input = input('')
+
+
+def infoHelp():
+    os.system('clear')
+    user_input = ''
+    print("q to exit")
+    while user_input != 'q':
+        print(infoLoop)
+        user_input = input('')

@@ -1,11 +1,13 @@
 import yfinance as yf
+import pandas as pd
 
 
-class stock:
+class Stock:
     def __init__(self, ticker):
         self.data = yf.Ticker(ticker)
 
-    def history(self, startDate, endDate):
+    def history(self, endDate, interval):
+        startDate = pd.Timestamp(endDate) - pd.Timedelta(days=interval)
         return self.data.history(start=startDate, end=endDate)
 
     def incomeStmt(self):
