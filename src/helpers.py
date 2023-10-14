@@ -70,5 +70,32 @@ def infoHelp():
     user_input = ''
     print("q to exit")
     while user_input != 'q':
-        print(infoLoop)
+        print(infoLoop, end='\r')
+        user_input = input('')
+
+
+def incomeStmtPrinter(incomeStmt):
+    os.system('clear')
+    print("q to exit")
+    user_input = ''
+    while user_input != 'q':
+        print(incomeStmt, end='\r') 
+        user_input = input('')
+
+
+def balanceSheetPrinter(balanceSheet):
+    os.system('clear')
+    print("q to exit!")
+    user_input = ''
+    while user_input != 'q':
+        print(balanceSheet, end='\r') 
+        user_input = input('')
+
+
+def cashFlowPrinter(cashFlow):
+    os.system('clear')
+    print("q to exit!")
+    user_input = ''
+    while user_input != 'q':
+        print(cashFlow, end='\r')
         user_input = input('')

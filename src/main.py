@@ -96,7 +96,7 @@ def analyse_loop():
             analyseHelp()
         elif user_response == 'return':
             return 'lobby'
-        elif user_response == ''
+        elif user_response.split(' ', 1)[0] == ''
 
 
 def info_loop():
@@ -106,7 +106,11 @@ def info_loop():
         user_response = input("What would you like to do?: ('help' for help)")
         if user_response == 'help':
             infoHelp()
-        elif user_response == ''
+        elif user_response.split(' ', 1)[0] == 'historic':
+            stock.history(
+                user_response.split(' ', 1)[1],
+                user_response.split(' ', 1)[2]
+            )
 
 
 def main():
