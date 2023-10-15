@@ -1,6 +1,8 @@
 import os
 import smaStrategy
 import pandas as pd
+import pprint
+
 intro = """
 pytrading ver 0.0.1 by Haeohreum Kim
 Anything from pytrading shall not be misconstrued as financial advice.
@@ -105,10 +107,10 @@ def cashFlowPrinter(cashFlow):
 
 def smaPeriod(tickerData, startDate, endDate):
     movingDate = pd.Timestamp(startDate)
-    dictOfMoves = ''
-    while (startDate is not endDate):
+    dictOfMoves = {}
+    while (movingDate != pd.Timestamp(endDate)):
         action = smaStrategy.sma(tickerData, movingDate)
-        dictOfMoves[movingDate] = action
+        dictOfMoves[movingDate.strftime("%Y-%m-%d")] = action
         movingDate = movingDate + pd.Timedelta(days=1)
     return dictOfMoves
 
@@ -117,5 +119,5 @@ def smaPrinter(dictOfMoves):
     print('q to exit')
     userInput = ''
     while userInput != 'q':
-        print(dictOfMoves)
+        pprint.PrettyPrinter(width=20).pprint(dictOfMoves)
         userInput = input('')
