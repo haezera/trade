@@ -1,4 +1,6 @@
 import os
+import smaStrategy
+import pandas as pd
 intro = """
 pytrading ver 0.0.1 by Haeohreum Kim
 Anything from pytrading shall not be misconstrued as financial advice.
@@ -28,8 +30,8 @@ analyseLoop = """
 Commands for analysis loop:
     help: the command you just used!
     return: return to a previous state
-    sma: Use the simple moving average strategy
-    awsm: Use the awesome oscillator strategy
+    sma <start date> <end date>: Use the simple moving average strategy
+    awsm <start date> <end date>: Use the awesome oscillator strategy
 """
 
 infoLoop = """
@@ -79,7 +81,7 @@ def incomeStmtPrinter(incomeStmt):
     print("q to exit")
     user_input = ''
     while user_input != 'q':
-        print(incomeStmt, end='\r') 
+        print(incomeStmt, end='\r')
         user_input = input('')
 
 
@@ -88,7 +90,7 @@ def balanceSheetPrinter(balanceSheet):
     print("q to exit!")
     user_input = ''
     while user_input != 'q':
-        print(balanceSheet, end='\r') 
+        print(balanceSheet, end='\r')
         user_input = input('')
 
 
@@ -99,3 +101,21 @@ def cashFlowPrinter(cashFlow):
     while user_input != 'q':
         print(cashFlow, end='\r')
         user_input = input('')
+
+
+def smaPeriod(tickerData, startDate, endDate):
+    movingDate = pd.Timestamp(startDate)
+    dictOfMoves = ''
+    while (startDate is not endDate):
+        action = smaStrategy.sma(tickerData, movingDate)
+        dictOfMoves[movingDate] = action
+        movingDate = movingDate + pd.Timedelta(days=1)
+    return dictOfMoves
+
+
+def smaPrinter(dictOfMoves):
+    print('q to exit')
+    userInput = ''
+    while userInput != 'q':
+        print(dictOfMoves)
+        userInput = input('')

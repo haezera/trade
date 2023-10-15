@@ -1,7 +1,7 @@
 import os
 import time
 from stock import Stock
-from helpers import analyseHelp, infoHelp, commandHelp
+import helpers
 # DEFINES
 
 intro = """
@@ -60,7 +60,7 @@ def lobby_loop():
         os.system('clear')
         user_input = input('What would you like to do? (`help` for help!): ')
         if user_input == 'help':
-            commandHelp()
+            helpers.commandHelp()
         elif user_input == 'return':
             return 'exit'
         elif user_input == 'analyse':
@@ -91,12 +91,20 @@ def analyse_loop():
     stock = allocateTicker()
     inAnalysis = True 
     while inAnalysis is True:
-        user_response = input("What would you like to do?: ('help' for help)")
+        user_response = input("What would you like to do?: ('help' for help) ")
+        sub_strings = user_response.split()
         if user_response == 'help':
-            analyseHelp()
+            helpers.analyseHelp()
         elif user_response == 'return':
             return 'lobby'
-        elif user_response.split(' ', 1)[0] == ''
+        elif sub_strings[0] == 'sma':
+            actions = helpers.smaPeriod(stock.data,
+                sub_strings[1],
+                sub_strings[2])
+            helpers.smaPrinter(actions)
+        else:
+            print("You have inputted an invalid argument! Try again.")
+            time.sleep(2)
 
 
 def info_loop():
@@ -105,12 +113,21 @@ def info_loop():
     while inInfo is True:
         user_response = input("What would you like to do?: ('help' for help)")
         if user_response == 'help':
-            infoHelp()
+            helpers.infoHelp()
         elif user_response.split(' ', 1)[0] == 'historic':
-            stock.history(
+            print(stock.history(
                 user_response.split(' ', 1)[1],
                 user_response.split(' ', 1)[2]
-            )
+            ))
+        elif user_response == 'incomestmt':
+            helpers.incomeStmtPrinter(stock.incomeStmt())
+        elif user_response == 'balancesheet':
+            helpers.balanceSheetPrinter(stock.balanceSheet())
+        elif user_response == 'cashflow':
+            helpers.cashFlowPrinter(stock.cashFlow())
+        else:
+            print("You have inputted an invalid command! Try again.")
+            time.sleep(2)
 
 
 def main():
