@@ -39,7 +39,7 @@ Commands for analysis loop:
 
 infoLoop = """
 Dates must be given in: YYYY-MM-DD format.
-Interval must be given in days, as an integer. 
+Interval must be given in days, as an integer.
 Commands for info loop:
     incomestmt: prints income statement(s)
     balancesheet: prints balance sheet(s)
@@ -84,12 +84,12 @@ def allocateTicker():
         except RuntimeError:
             print("You have inputted an invalid ticker! Try again.")
 
-    return stock 
+    return stock
 
 
 def analyse_loop():
     stock = allocateTicker()
-    inAnalysis = True 
+    inAnalysis = True
     while inAnalysis is True:
         user_response = input("What would you like to do?: ('help' for help) ")
         sub_strings = user_response.split()
@@ -98,10 +98,18 @@ def analyse_loop():
         elif user_response == 'return':
             return 'lobby'
         elif sub_strings[0] == 'sma':
-            actions = helpers.smaPeriod(stock.data,
+            actions = helpers.smaPeriod(
+                stock.data,
                 sub_strings[1],
                 sub_strings[2])
             helpers.smaPrinter(actions)
+        elif sub_strings[0] == 'awsm':
+            actions = helpers.aoPeriod(
+                stock.data,
+                sub_strings[1],
+                sub_strings[2]
+            )
+            helpers.aoPrinter(actions)
         else:
             print("You have inputted an invalid argument! Try again.")
             time.sleep(2)

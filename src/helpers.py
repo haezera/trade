@@ -1,5 +1,6 @@
 import os
 import smaStrategy
+import aoStrategy
 import pandas as pd
 import pprint
 
@@ -108,7 +109,7 @@ def cashFlowPrinter(cashFlow):
 def smaPeriod(tickerData, startDate, endDate):
     movingDate = pd.Timestamp(startDate)
     dictOfMoves = {}
-    while (movingDate != pd.Timestamp(endDate)):
+    while movingDate != pd.Timestamp(endDate):
         action = smaStrategy.sma(tickerData, movingDate)
         dictOfMoves[movingDate.strftime("%Y-%m-%d")] = action
         movingDate = movingDate + pd.Timedelta(days=1)
@@ -116,6 +117,26 @@ def smaPeriod(tickerData, startDate, endDate):
 
 
 def smaPrinter(dictOfMoves):
+    os.system('clear')
+    print('q to exit')
+    userInput = ''
+    while userInput != 'q':
+        pprint.PrettyPrinter(width=20).pprint(dictOfMoves)
+        userInput = input('')
+
+
+def aoPeriod(tickerData, startDate, endDate):
+    movingDate = pd.Timestamp(startDate)
+    dictOfMoves = {}
+    while movingDate != pd.Timestamp(endDate):
+        action = aoStrategy.ao(tickerData, movingDate)
+        dictOfMoves[movingDate.strftime("%Y-%m-%d")] = action
+        movingDate = movingDate + pd.Timedelta(days=1)
+    return dictOfMoves
+
+
+def aoPrinter(dictOfMoves):
+    os.system('clear')
     print('q to exit')
     userInput = ''
     while userInput != 'q':
