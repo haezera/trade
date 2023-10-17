@@ -3,6 +3,7 @@ import smaStrategy
 import aoStrategy
 import pandas as pd
 import pprint
+import holidays
 
 intro = """
 pytrading ver 0.0.1 by Haeohreum Kim
@@ -50,6 +51,15 @@ Commands for info loop:
 exitStatement = """
 Thank you for using pytrading. See you next time!
 """
+
+
+def is_business_day(date):
+    return bool(len(pd.bdate_range(date, date)))
+
+
+def is_public_holiday(date):
+    us_holidays = holidays.US()
+    return date in us_holidays
 
 
 def commandHelp():
@@ -110,9 +120,12 @@ def smaPeriod(tickerData, startDate, endDate):
     movingDate = pd.Timestamp(startDate)
     dictOfMoves = {}
     while movingDate != pd.Timestamp(endDate):
-        action = smaStrategy.sma(tickerData, movingDate)
-        dictOfMoves[movingDate.strftime("%Y-%m-%d")] = action
+        if is_business_day(pd.Timestamp(movingDate)) and is_public_holiday(movingDate) != True:
+            action = smaStrategy.sma(tickerData, movingDate)
+            dictOfMoves[movingDate.strftime("%Y-%m-%d")] = action
+
         movingDate = movingDate + pd.Timedelta(days=1)
+
     return dictOfMoves
 
 

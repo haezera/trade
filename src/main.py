@@ -152,7 +152,5 @@ def main():
     print(exitStatement)
 
 
-stock = allocateTicker()
-
 if __name__ == '__main__':
     main()

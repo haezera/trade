@@ -1,27 +1,29 @@
 import pandas as pd
-
-
+import helpers
+import yfinance as yf
+import os 
 backTestIntro = """
 backtester version 0.0.1 by Haeohreum Kim
 """
 
 
 def backTester(tickerData, dictOfActions):
+    os.system('clear')
     print(backTestIntro)
-    number_of_stock = input(
-        "How much stock would you like to buy at each BUY signal?: ")
+    number_of_stock = int(input(
+        "How much stock would you like to buy at each BUY signal?: "))
     stock_bought = 0
     basis_price = 0
     profit_loss = 0
 
-    for x, y in dictOfActions:
+    for x, y in dictOfActions.items():
         if y == 'BUY' or y == 'SELL':
             stock_price = tickerData.history(
                 start=pd.Timestamp(x),
-                start=pd.Timestamp(x) + pd.Timedelta(days=1)).iat[0, 3]
+                end=pd.Timestamp(x) + pd.Timedelta(days=1)).iat[0, 3]
             if y == 'SELL':
                 sale_price = stock_price * stock_bought
-                profit_loss = basis_price - sale_price
+                profit_loss = profit_loss + (basis_price - sale_price)
                 basis_price = 0
                 stock_bought = 0
             elif y == 'BUY':
@@ -29,3 +31,8 @@ def backTester(tickerData, dictOfActions):
                 basis_price = basis_price + stock_price * number_of_stock
 
     return profit_loss
+
+# Tests
+msft = yf.Ticker('TSM')
+actions = helpers.smaPeriod(msft, '2023-07-10', '2023-09-25')
+print(f"profit_loss: {backTester(msft, actions)}")
