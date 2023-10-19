@@ -2,6 +2,7 @@ import os
 import time
 from stock import Stock
 import helpers
+import pandas as pd
 # DEFINES
 
 intro = """
@@ -27,6 +28,8 @@ Commands for command loop:
     return: return to a previous state (stock analysis -> command loop, etc.)
     analyse: analyse a stock, using different indicators
     info: get information about a stock back
+    backtest: get backtesting information for a ticker and a strategy
+    backtestExpo: export backtesting information to an excel sheet
 """
 
 analyseLoop = """
@@ -67,6 +70,10 @@ def lobby_loop():
             return 'analyse'
         elif user_input == 'info':
             return 'info'
+        elif user_input == 'backtest':
+            return 'backtest'
+        elif user_input == 'backtestExpo':
+            return 'backtestExpo'
         else:
             print("You chose an invalid command. Use 'help' for information!")
             time.sleep(2)
@@ -120,12 +127,13 @@ def info_loop():
     inInfo = True
     while inInfo is True:
         user_response = input("What would you like to do?: ('help' for help)")
+        sub_strings = user_response.split()
         if user_response == 'help':
             helpers.infoHelp()
-        elif user_response.split(' ', 1)[0] == 'historic':
+        elif sub_strings[0] == 'historic':
             print(stock.history(
-                user_response.split(' ', 1)[1],
-                user_response.split(' ', 1)[2]
+                sub_strings[1],
+                sub_strings[2]
             ))
         elif user_response == 'incomestmt':
             helpers.incomeStmtPrinter(stock.incomeStmt())
@@ -138,6 +146,37 @@ def info_loop():
             time.sleep(2)
 
 
+def backtest_loop():
+    state = "in_progress"
+    while state == "in_progress":
+        stock = allocateTicker()
+        actions = helpers.backtestAnalysis(stock.data)
+        if actions == "quit":
+            return "lobby"
+
+
+def backtestExport_loop():
+    state = "in_progress"
+    data = {
+        'ticker': [],
+        'strategy': [],
+        'startDate': [],
+        'endDate': [],
+        'profit/loss': []
+    }
+    while state == "in_progress":
+        stock = allocateTicker()
+        data["ticker"].append(stock.ticker)
+        actions = helpers.backtestExpoAnalysis(stock.data, data)
+        if actions == "quit":
+            exportData = pd.DataFrame(data)
+            print(exportData)
+            time.sleep(5)
+            return "lobby"
+
+    # Make pandas data frame + read to excel sheet
+
+
 def main():
     print(intro)
     time.sleep(3)
@@ -148,7 +187,11 @@ def main():
         elif currentState == 'analyse':
             currentState = analyse_loop()
         elif currentState == 'info':
-            currentState = analyse_loop()
+            currentState = info_loop()
+        elif currentState == 'backtest':
+            currentState = backtest_loop()
+        elif currentState == 'backtestExpo':
+            currentState = backtestExport_loop()
     print(exitStatement)
 
 

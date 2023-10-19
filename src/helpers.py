@@ -4,6 +4,7 @@ import aoStrategy
 import pandas as pd
 import pprint
 import holidays
+import backtester
 
 intro = """
 pytrading ver 0.0.1 by Haeohreum Kim
@@ -28,6 +29,8 @@ Commands for command loop:
     return: return to a previous state (stock analysis -> command loop, etc.)
     analyse: analyse a stock, using different indicators
     info: get information about a stock back
+    backtest: get backtesting information for a ticker and a strategy
+    backtestExpo: export backtesting information to an excel sheet
 """
 
 analyseLoop = """
@@ -155,3 +158,86 @@ def aoPrinter(dictOfMoves):
     while userInput != 'q':
         pprint.PrettyPrinter(width=20).pprint(dictOfMoves)
         userInput = input('')
+
+
+backtestHelp = """
+sma <startDate> <endDate> - back tests the Simple Moving Average strategy
+ao <startDate> <endDate> - back tests the Awesome Oscillator strategy
+quit - quit the backtester, and go back to the lobby
+"""
+
+
+def backtestAnalysis(stockData):
+    os.system('clear')
+    state = "unchosen"
+    while (state == "unchosen"):
+        completed = False 
+        while (completed == False):
+            try:
+                analysis = input("Which strategy would you like to test? ('help' for help): ")
+                sub_strings = analysis.split()
+                if sub_strings[0] == "sma":
+                    actions = smaPeriod(
+                        stockData,
+                        sub_strings[1],
+                        sub_strings[2]
+                    )
+                    completed = True
+                    print(backtester.backTester(stockData, actions))
+                elif sub_strings[0] == "ao":
+                    actions = smaPeriod(
+                        stockData,
+                        sub_strings[1],
+                        sub_strings[2]
+                    )
+                    completed = True
+                    print(backtester.backTester(stockData, actions))
+                elif analysis == "quit":
+                    completed = True
+                    return "quit"
+                else:
+                    print("You printed an invalid command. Try again!")
+            except:
+                print("There has been a runtime error. Try again!")
+
+
+def backtestExpoAnalysis(stockData, data):
+    os.system('clear')
+    state = "unchosen"
+    sub_strings = []
+    while (state == "unchosen"):
+        completed = False 
+        while (completed == False):
+            try:
+                analysis = input("Which strategy would you like to test? ('help' for help): ")
+                sub_strings = analysis.split()
+                if sub_strings[0] == "sma":
+                    actions = smaPeriod(
+                        stockData,
+                        sub_strings[1],
+                        sub_strings[2]
+                    )
+                    data["strategy"].append("sma")
+                    data["startDate"].append(sub_strings[1])
+                    data["endDate"].append(sub_strings[2])
+                    data["profit/loss"].append(backtester.backTester(stockData, actions))
+                    completed = True
+                    return
+                elif sub_strings[0] == "ao":
+                    actions = smaPeriod(
+                        stockData,
+                        sub_strings[1],
+                        sub_strings[2]
+                    )
+                    data["startegy"].append("ao")
+                    data["startDate"].append(sub_strings[1])
+                    data["endDate"].append(sub_strings[2])
+                    data["profit/loss"].append(backtester.backTester(stockData, actions))
+                    completed = True
+                    return
+                elif sub_strings[0] == "quit":
+                    return "quit"
+                else:
+                    print("You printed an invalid command. Try again!")
+            except:
+                print("There has been a runtime error. Please try again!")

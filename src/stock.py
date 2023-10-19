@@ -5,6 +5,7 @@ import pandas as pd
 class Stock:
     def __init__(self, ticker):
         self.data = yf.Ticker(ticker)
+        self.ticker = ticker
 
     def history(self, endDate, interval):
         startDate = pd.Timestamp(endDate) - pd.Timedelta(days=interval)

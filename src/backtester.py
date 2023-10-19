@@ -31,8 +31,3 @@ def backTester(tickerData, dictOfActions):
                 basis_price = basis_price + stock_price * number_of_stock
 
     return profit_loss
-
-# Tests
-msft = yf.Ticker('TSM')
-actions = helpers.smaPeriod(msft, '2023-07-10', '2023-09-25')
-print(f"profit_loss: {backTester(msft, actions)}")
