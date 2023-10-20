@@ -5,6 +5,6 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - run: bash src/lint.sh
+      - run: bash ./src/lint.sh
 
 
