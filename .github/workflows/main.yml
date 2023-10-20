@@ -25,6 +25,6 @@ jobs:
           # If true, the action will send a PR message if pylint finds errors (default is true)
           pr-message: true
       - name: Run pytest
-        run: pytest src/test.py
+        run: pip install pytest | pytest src/tests.py
   
 
