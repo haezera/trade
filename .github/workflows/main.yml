@@ -1,10 +1,10 @@
 name: pytrading pipeline
-run-name: ${{ github.actor }} is running pipeline$
+run-name: ${{ github.actor }} is running pipeline
 on: [push]
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - run: zsh src/lint.sh
+      - run: bash src/lint.sh
 
 
