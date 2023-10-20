@@ -24,5 +24,17 @@ jobs:
           fail: true
           # If true, the action will send a PR message if pylint finds errors (default is true)
           pr-message: true
-
+        - name: Pytest summary
+          uses: dariocurr/pytest-summary@v2
+          with:
+          # The pytest extensions to install along pytest
+            extensions: # optional
+            # The pytest options
+            options: # optional
+            # The path to the output file to create
+            output: # optional
+            # The path to the folder containing the tests
+            paths: src/tests.py
+            # Which tests have to be shown in the summary
+            show: # optional
 
