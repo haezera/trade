@@ -5,7 +5,8 @@ import pandas as pd
 import pprint
 import holidays
 import backtester
-
+import vwapStrategy
+import yfinance as yf
 intro = """
 pytrading ver 0.0.1 by Haeohreum Kim
 Anything from pytrading shall not be misconstrued as financial advice.
@@ -161,6 +162,17 @@ def aoPrinter(dictOfMoves):
         userInput = input('')
 
 
+def vwapPeriod(tickerData, startDate, endDate):
+    movingDate = pd.Timestamp(startDate)
+    dictOfMoves = {}
+    while movingDate != pd.Timestamp(endDate):
+        if is_business_day(pd.Timestamp(movingDate)) and is_public_holiday(movingDate) is not True:
+            action = vwapStrategy.vwapStrategy(tickerData, movingDate)
+            dictOfMoves[movingDate.strftime("%Y-%m-%d")] = action 
+        movingDate = movingDate + pd.Timedelta(days=1)
+    return dictOfMoves
+
+
 backtestHelp = """
 sma <startDate> <endDate> - back tests the Simple Moving Average strategy
 ao <startDate> <endDate> - back tests the Awesome Oscillator strategy
@@ -246,3 +258,5 @@ def backtestExpoAnalysis(stockData, data):
                     print("You printed an invalid command. Try again!")
             except BaseException:
                 print("There has been a runtime error. Please try again!")
+
+
