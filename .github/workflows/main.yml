@@ -25,8 +25,6 @@ jobs:
           # If true, the action will send a PR message if pylint finds errors (default is true)
           pr-message: true
       - name: Run pytest
-        # You may pin to the exact commit or the version.
-        # uses: pavelzw/pytest-action@c9e5b9c8d93290ff47dcf6a28c6b19ca0b42e487
-        uses: pavelzw/pytest-action@v2.1.0
+        run: pytest src/test.py
   
 
