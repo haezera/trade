@@ -123,7 +123,8 @@ def smaPeriod(tickerData, startDate, endDate):
     movingDate = pd.Timestamp(startDate)
     dictOfMoves = {}
     while movingDate != pd.Timestamp(endDate):
-        if is_business_day(pd.Timestamp(movingDate)) and is_public_holiday(movingDate) != True:
+        if is_business_day(pd.Timestamp(movingDate)
+                           ) and is_public_holiday(movingDate) is not True:
             action = smaStrategy.sma(tickerData, movingDate)
             dictOfMoves[movingDate.strftime("%Y-%m-%d")] = action
 
@@ -171,10 +172,11 @@ def backtestAnalysis(stockData):
     os.system('clear')
     state = "unchosen"
     while (state == "unchosen"):
-        completed = False 
-        while (completed == False):
+        completed = False
+        while (completed is False):
             try:
-                analysis = input("Which strategy would you like to test? ('help' for help): ")
+                analysis = input(
+                    "Which strategy would you like to test? ('help' for help): ")
                 sub_strings = analysis.split()
                 if sub_strings[0] == "sma":
                     actions = smaPeriod(
@@ -197,7 +199,7 @@ def backtestAnalysis(stockData):
                     return "quit"
                 else:
                     print("You printed an invalid command. Try again!")
-            except:
+            except BaseException:
                 print("There has been a runtime error. Try again!")
 
 
@@ -206,10 +208,11 @@ def backtestExpoAnalysis(stockData, data):
     state = "unchosen"
     sub_strings = []
     while (state == "unchosen"):
-        completed = False 
-        while (completed == False):
+        completed = False
+        while (completed is False):
             try:
-                analysis = input("Which strategy would you like to test? ('help' for help): ")
+                analysis = input(
+                    "Which strategy would you like to test? ('help' for help): ")
                 sub_strings = analysis.split()
                 if sub_strings[0] == "sma":
                     actions = smaPeriod(
@@ -220,7 +223,8 @@ def backtestExpoAnalysis(stockData, data):
                     data["strategy"].append("sma")
                     data["startDate"].append(sub_strings[1])
                     data["endDate"].append(sub_strings[2])
-                    data["profit/loss"].append(backtester.backTester(stockData, actions))
+                    data["profit/loss"].append(
+                        backtester.backTester(stockData, actions))
                     completed = True
                     return
                 elif sub_strings[0] == "ao":
@@ -232,12 +236,13 @@ def backtestExpoAnalysis(stockData, data):
                     data["startegy"].append("ao")
                     data["startDate"].append(sub_strings[1])
                     data["endDate"].append(sub_strings[2])
-                    data["profit/loss"].append(backtester.backTester(stockData, actions))
+                    data["profit/loss"].append(
+                        backtester.backTester(stockData, actions))
                     completed = True
                     return
                 elif sub_strings[0] == "quit":
                     return "quit"
                 else:
                     print("You printed an invalid command. Try again!")
-            except:
+            except BaseException:
                 print("There has been a runtime error. Please try again!")

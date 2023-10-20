@@ -1,7 +1,7 @@
 import pandas as pd
 import helpers
 import yfinance as yf
-import os 
+import os
 backTestIntro = """
 backtester version 0.0.1 by Haeohreum Kim
 """

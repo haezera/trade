@@ -5,21 +5,24 @@ from smaStrategy import calculateBusinessDays
 def medianMA(tickerData, date, spread):
     dateSpread = spread
     while (
-        calculateBusinessDays(
-            pd.Timestamp(date) - pd.Timedelta(days=dateSpread),
-            pd.Timestamp(date)) != spread + 5):  # Just to be sure with public holidays
+            calculateBusinessDays(
+                pd.Timestamp(date) -
+                pd.Timedelta(
+                    days=dateSpread),
+                pd.Timestamp(date)) != spread +
+            5):  # Just to be sure with public holidays
         dateSpread = dateSpread + 1
 
     historicalData = tickerData.history(
-            start=pd.Timestamp(date) - pd.Timedelta(days=dateSpread),
-            end=pd.Timestamp(date))
+        start=pd.Timestamp(date) - pd.Timedelta(days=dateSpread),
+        end=pd.Timestamp(date))
 
     cumsum = 0
     increment = 0
     while (increment < spread):
         cumsum = cumsum + (
             historicalData.iat[increment, 1] +
-            historicalData.iat[increment, 2])/2
+            historicalData.iat[increment, 2]) / 2
         increment = increment + 1
 
     return cumsum / spread

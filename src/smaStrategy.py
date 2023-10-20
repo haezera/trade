@@ -11,8 +11,8 @@ def fiveDayMA(tickerData, date):
         dateSpread = dateSpread + 1
 
     historicalData = tickerData.history(
-            start=pd.Timestamp(date) - pd.Timedelta(days=dateSpread),
-            end=pd.Timestamp(date))
+        start=pd.Timestamp(date) - pd.Timedelta(days=dateSpread),
+        end=pd.Timestamp(date))
 
     fiveDaySum = 0
     increment = 0
@@ -32,8 +32,8 @@ def tenDayMA(tickerData, date):
         dateSpread = dateSpread + 1
 
     historicalData = tickerData.history(
-            start=pd.Timestamp(date) - pd.Timedelta(days=dateSpread),
-            end=pd.Timestamp(date))
+        start=pd.Timestamp(date) - pd.Timedelta(days=dateSpread),
+        end=pd.Timestamp(date))
 
     tenDaySum = 0
     increment = 0
