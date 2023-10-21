@@ -3,8 +3,7 @@
 ![example workflow](https://github.com/haezera/pytrading/actions/workflows/python-app.yml/badge.svg)\
 **warning: anything within pytrading shall not be miscontrued as financial advice.**
 ## _about_
-pytrading began as a learning experience into the quantitative and algorithmic trading game. From a young age, i was interested into investments and trading as my father had always invested whatever savings he had into stocks. 
-From this upbringing, a decent, pop knowledge of finance and quantiative finance was gained; but I wanted to understand the mathematical foundations. 
+pytrading began as a learning experience into the quantitative and algorithmic trading game. It aims to provide investors statistically driven information and actions on assets within the US (and hopefully, eventually, global) stock market. 
 
 ## _documentation_
 Coming soon!
