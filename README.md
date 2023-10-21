@@ -27,7 +27,7 @@ By version 1.0.0, the following features will be integrated:
 <ul>
   <li>Live trading feature, where traders can get more information minute by minute.</li>
   <li>The implementation of my own trading algorithm (check out the research paper!)</li>
-  <li>GUI instead of a TUI, but both will be available</li>
+  <li>Be a REST API that interacts with a frontend (probably a JavaScript one)</li>
   <li>Stock graphing; graphing of strategies (akin to yahoo finance)</li>
 </ul>
 
