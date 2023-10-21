@@ -38,6 +38,8 @@ Commands for analysis loop:
     return: return to a previous state
     sma: Use the simple moving average strategy
     awsm: Use the awesome oscillator strategy
+    vwap: Use the volume weight average price strategy
+    clear: Clears the terminal
 """
 
 infoLoop = """
@@ -109,14 +111,23 @@ def analyse_loop():
                 stock.data,
                 sub_strings[1],
                 sub_strings[2])
-            helpers.smaPrinter(actions)
+            helpers.printer(actions)
         elif sub_strings[0] == 'awsm':
             actions = helpers.aoPeriod(
                 stock.data,
                 sub_strings[1],
                 sub_strings[2]
             )
-            helpers.aoPrinter(actions)
+            helpers.printer(actions)
+        elif sub_strings[0] == 'vwap':
+            actions = helpers.vwapPeriod(
+                stock.data,
+                sub_strings[1],
+                sub_strings[2]
+            )
+            helpers.printer(actions)
+        elif sub_strings[0] == 'clear':
+            os.system('clear')
         else:
             print("You have inputted an invalid argument! Try again.")
             time.sleep(2)
@@ -175,7 +186,10 @@ def backtestExport_loop():
             return "lobby"
 
     # Make pandas data frame + read to excel sheet
-
+    export = pd.Dataframe.from_dict(data)
+    file_name = input("What do you want your filename to be?: ")
+    export.to_excel(f"{file_name}.xlsx")
+    print("Your file has been successfully exported!")
 
 def main():
     print(intro)

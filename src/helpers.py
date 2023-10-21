@@ -134,7 +134,7 @@ def smaPeriod(tickerData, startDate, endDate):
     return dictOfMoves
 
 
-def smaPrinter(dictOfMoves):
+def printer(dictOfMoves):
     os.system('clear')
     print('q to exit')
     userInput = ''
@@ -147,29 +147,24 @@ def aoPeriod(tickerData, startDate, endDate):
     movingDate = pd.Timestamp(startDate)
     dictOfMoves = {}
     while movingDate != pd.Timestamp(endDate):
-        action = aoStrategy.ao(tickerData, movingDate)
-        dictOfMoves[movingDate.strftime("%Y-%m-%d")] = action
-        movingDate = movingDate + pd.Timedelta(days=1)
+        if is_business_day(pd.Timestamp(movingDate)) and is_public_holiday(
+                movingDate) is not True:
+            action = aoStrategy.ao(tickerData, movingDate)
+            dictOfMoves[movingDate.strftime("%Y-%m-%d")] = action
+            movingDate = movingDate + pd.Timedelta(days=1)
     return dictOfMoves
-
-
-def aoPrinter(dictOfMoves):
-    os.system('clear')
-    print('q to exit')
-    userInput = ''
-    while userInput != 'q':
-        pprint.PrettyPrinter(width=20).pprint(dictOfMoves)
-        userInput = input('')
 
 
 def vwapPeriod(tickerData, startDate, endDate):
     movingDate = pd.Timestamp(startDate)
     dictOfMoves = {}
     while movingDate != pd.Timestamp(endDate):
-        if is_business_day(pd.Timestamp(movingDate)) and is_public_holiday(movingDate) is not True:
+        if is_business_day(pd.Timestamp(movingDate)) and is_public_holiday(
+                movingDate) is not True:
             action = vwapStrategy.vwapStrategy(tickerData, movingDate)
-            dictOfMoves[movingDate.strftime("%Y-%m-%d")] = action 
+            dictOfMoves[movingDate.strftime("%Y-%m-%d")] = action
         movingDate = movingDate + pd.Timedelta(days=1)
+
     return dictOfMoves
 
 
@@ -199,7 +194,15 @@ def backtestAnalysis(stockData):
                     completed = True
                     print(backtester.backTester(stockData, actions))
                 elif sub_strings[0] == "ao":
-                    actions = smaPeriod(
+                    actions = aoPeriod(
+                        stockData,
+                        sub_strings[1],
+                        sub_strings[2]
+                    )
+                    completed = True
+                    print(backtester.backTester(stockData, actions))
+                elif sub_strings[0] == 'vwap':
+                    actions = vwapPeriod(
                         stockData,
                         sub_strings[1],
                         sub_strings[2]
@@ -258,5 +261,3 @@ def backtestExpoAnalysis(stockData, data):
                     print("You printed an invalid command. Try again!")
             except BaseException:
                 print("There has been a runtime error. Please try again!")
-
-
