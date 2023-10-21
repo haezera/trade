@@ -6,7 +6,7 @@ import pandas as pd
 # DEFINES
 
 intro = """
-pytrading ver 0.0.1 by Haeohreum Kim
+pytrading ver 0.0.2 by Haeohreum Kim
 Anything from pytrading shall not be misconstrued as financial advice.
 
 Acknowledgements to:
@@ -36,9 +36,9 @@ analyseLoop = """
 Commands for analysis loop:
     help: the command you just used!
     return: return to a previous state
-    sma: Use the simple moving average strategy
-    awsm: Use the awesome oscillator strategy
-    vwap: Use the volume weight average price strategy
+    sma <start date> <end date>: Use the simple moving average strategy
+    awsm <start date> <end date>: Use the awesome oscillator strategy
+    vwap <start date> <end date>: Use the volume weight average price strategy
     clear: Clears the terminal
 """
 
@@ -50,6 +50,7 @@ Commands for info loop:
     balancesheet: prints balance sheet(s)
     cashflow: prints cash flow statement(s)
     historic <date> <interval>: prints historic price data, with date and interval.
+    quit - return to lobby
 """
 
 exitStatement = """
@@ -137,7 +138,7 @@ def info_loop():
     stock = allocateTicker()
     inInfo = True
     while inInfo is True:
-        user_response = input("What would you like to do?: ('help' for help)")
+        user_response = input("What would you like to do? ('help' for help): ")
         sub_strings = user_response.split()
         if user_response == 'help':
             helpers.infoHelp()
@@ -152,6 +153,8 @@ def info_loop():
             helpers.balanceSheetPrinter(stock.balanceSheet())
         elif user_response == 'cashflow':
             helpers.cashFlowPrinter(stock.cashFlow())
+        elif user_response == 'quit':
+            return 'lobby'
         else:
             print("You have inputted an invalid command! Try again.")
             time.sleep(2)
@@ -175,21 +178,22 @@ def backtestExport_loop():
         'endDate': [],
         'profit/loss': []
     }
+
     while state == "in_progress":
         stock = allocateTicker()
         data["ticker"].append(stock.ticker)
         actions = helpers.backtestExpoAnalysis(stock.data, data)
         if actions == "quit":
-            exportData = pd.DataFrame(data)
-            print(exportData)
-            time.sleep(5)
-            return "lobby"
+            data["ticker"].pop()
+            break
 
     # Make pandas data frame + read to excel sheet
-    export = pd.Dataframe.from_dict(data)
+    export = pd.DataFrame.from_dict(data)
     file_name = input("What do you want your filename to be?: ")
     export.to_excel(f"{file_name}.xlsx")
     print("Your file has been successfully exported!")
+    return "lobby"
+
 
 def main():
     print(intro)

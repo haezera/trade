@@ -226,8 +226,7 @@ def backtestExpoAnalysis(stockData, data):
         completed = False
         while (completed is False):
             try:
-                analysis = input(
-                    "Which strategy would you like to test? ('help' for help): ")
+                analysis = input("Which strategy would you like to test? ('help' for help): ")
                 sub_strings = analysis.split()
                 if sub_strings[0] == "sma":
                     actions = smaPeriod(
