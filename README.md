@@ -1,4 +1,4 @@
-# _pytrading_ (0.1.0)
+# _pytrading_ (0.1.1)
 
 ![example workflow](https://github.com/haezera/pytrading/actions/workflows/python-app.yml/badge.svg)\
 **warning: anything within pytrading shall not be miscontrued as financial advice.**
@@ -9,6 +9,7 @@ pytrading began as a learning experience into the quantitative and algorithmic t
 <a href="https://haezera.github.io/pytrading/index.html" target="_blank">Link to documentation</a>
 
 ## _features_
+TUI App:
 <ul>
   <li>A fairly rigid TUI experience</li>
   <li>Retrieval of income statements for any US stock</li>
@@ -19,6 +20,11 @@ pytrading began as a learning experience into the quantitative and algorithmic t
   <li>VWAP strategy (Volume weighted average price)</li>
   <li>Backtesting application</li>
   <li>Backtester exporting to xlsx files</li>
+</ul>
+Full Stack React/Flask Application:
+<ul>
+  <li>Routes currently being completed</li>
+  <li>mySQL server initialisation and helper queries created</li>
 </ul>
 
 ## _planned features_
