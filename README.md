@@ -6,7 +6,7 @@
 pytrading began as a learning experience into the quantitative and algorithmic trading game. It aims to provide investors statistically driven information and actions on assets within the US (and hopefully, eventually, global) stock market. 
 
 ## _documentation_
-<a href="https://hazera.github.io/api.html">Link to documentation</a>
+<a href="https://haezera.github.io/pytrading/index.html" target="_blank">Link to documentation</a>
 
 ## _features_
 <ul>
