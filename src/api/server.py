@@ -6,12 +6,17 @@ import mysql.connector
 # You are required to run the setup first. 
 
 password = input("What is your mySQL root password?: ")
-mydb = mysql.connector.connect(
+
+# SQL db connection
+db = mysql.connector.connect(
     host="localhost",
     user="root",
     password=password,
     database="pytrading"
 )
+
+# SQL cursor
+cursor = db.cursor()
 
 app = Flask(__name__)
 

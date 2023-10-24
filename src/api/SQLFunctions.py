@@ -1,24 +1,24 @@
-import mysql.connector
+insert_user = """INSERT INTO Users (
+    firstName,
+    lastName,
+    email,
+    password,
+    loggedin
+) VALUES (%s, %s, %s, %s, %s, %d)"""
 
-password = input("What is your password?: ")
+find_user = """
+SELECT
+    CASE
+        WHEN EXISTS (
+            SELECT 1
+            FROM users
+            WHERE id = %d
+        )
+        THEN 1
+        ELSE 0
+    END AS element_exists;
+"""
 
-mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password=password
-)
-
-mycursor = mydb.cursor()
-
-mycursor.execute("CREATE DATABASE pytrading")
-mycursor.execute("USE pytrading")
-mycursor.execute("""CREATE TABLE Users(
-    UserID VARCHAR(255),
-    firstName VARCHAR(255),
-    lastName VARCHAR(255),
-    email VARCHAR(255),
-    password VARCHAR(255),
-    loggedin int
-)""")
-print("pytrading database initialised!")
-print("mySQL server initialised!")
+check_password = """
+SELECT password FROM users WHERE id = %s AND password = %s
+"""
