@@ -13,18 +13,15 @@ cursor = db.cursor()
 cursor.execute("CREATE DATABASE IF NOT EXISTS pytrading")
 cursor.execute("USE pytrading")
 cursor.execute("""
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     sessionId VARCHAR(255),
     firstName VARCHAR(255),
     lastName VARCHAR(255),
     email VARCHAR(255),
-    password VARCHAR(255)),
-    loggedin BOOLEAN DEFAULT FALSE
+    password VARCHAR(255),
+    loggedin TINYINT)
 """)
 
-cursor.execute("""
-SELECT * FROM users
-""")
 
 db.commit()

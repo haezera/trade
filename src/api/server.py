@@ -1,7 +1,9 @@
 from flask import Flask
-from flask import request 
-from flask import jsonify 
-import mysql.connector 
+from flask import request
+from flask import jsonify
+import mysql.connector
+import auth
+
 
 # You are required to run the setup first. 
 
@@ -24,3 +26,17 @@ app = Flask(__name__)
 @app.route("/")
 def root():
     return {"message": "You accessed the root!"}
+
+
+@app.route("/user/register", methods=["POST"])
+def userRegister():
+    body = request.json
+    response = auth.userRegister(
+        body["firstName"],
+        body["lastName"],
+        body["email"],
+        body["password"],
+        db,
+        cursor
+    )
+    return {"response": response}

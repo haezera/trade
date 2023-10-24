@@ -1,10 +1,11 @@
 insert_user = """INSERT INTO Users (
+    sessionId,
     firstName,
     lastName,
     email,
     password,
     loggedin
-) VALUES (%s, %s, %s, %s, %s, %d)"""
+) VALUES (%s, %s, %s, %s, %s, %s)"""
 
 find_user = """
 SELECT
