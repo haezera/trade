@@ -9,9 +9,9 @@ def test_register_success():
         "email": "haeohreum09@hotmail.com",
         "password": "Password123"
     })
-    print(response)
     res = response.status_code
     assert res == 200
+    clear_all()
 
 
 def test_register_fail_name():
@@ -35,6 +35,7 @@ def test_register_fail_email():
     })
     res = response.status_code
     assert res == 400
+    clear_all()
 
 
 def test_register_fail_password():
@@ -46,3 +47,5 @@ def test_register_fail_password():
     })
     res = response.status_code
     assert res == 400
+    clear_all()
+
