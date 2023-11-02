@@ -3,6 +3,8 @@ import mysql.connector
 import src.api.SQLFunctions as sqlf
 import src.api.auth as auth
 import src.stock as stock
+import yfinance as yf
+import src.helpers as helpers
 
 # SQL db connection
 db = mysql.connector.connect(
@@ -97,7 +99,7 @@ def user_logout():
     body = request.json
     response = auth.userLogout(
         body["sessionId"],
-        db, 
+        db,
         cursor
     )
     print(response)
@@ -163,3 +165,59 @@ def getIncomeStmt(sessionId, ticker):
         return {"error": "No data found for ticker"}, 400
 
     return {"results": response.to_json()}
+
+
+@app.route("/stock/<sessionId>/<ticker>/cashflow", methods=["GET"])
+def getCashFlow(sessionId, ticker):
+    cursor.execute(sqlf.fetch_user_id, (sessionId,))
+    user_id = cursor.fetchone()
+    if user_id is None:
+        return {"error": "sessionId is invalid"}, 400
+    user_id = user_id[0]
+    # Set up stock class
+    stockObj = stock.Stock(ticker)
+    # Get income statement
+    response = stockObj.cashFlow()
+    if response.empty:
+        del stockObj
+        return {"error": "No data found for ticker"}, 400
+    del stockObj
+    return {"results": response.to_json()}
+
+
+@app.route(
+    "/stock/<sessionId>/<ticker>/historical/<startdate>/<enddate>",
+    methods=["GET"])
+def getHistorical(sessionId, ticker, startdate, enddate):
+    cursor.execute(sqlf.fetch_user_id, (sessionId,))
+    user_id = cursor.fetchone()
+    if user_id is None:
+        return {"error": "sessionId is invalid"}, 400
+
+    # Set up stock class
+    stockObj = stock.Stock(ticker)
+    # Get income statement
+
+    response = stockObj.history(startdate, enddate)
+    print(response)
+    if response.empty:
+        del stockObj
+        return {"error": "No data found for ticker"}, 400
+    del stockObj
+    return {"results": response.to_json()}
+
+
+@app.route(
+    "/stock/<sessionId>/<ticker>/awsm/<startdate>/<enddate>",
+    methods=["GET"])
+def getAwesome(sessionId, ticker, startdate, enddate):
+    cursor.execute(sqlf.fetch_user_id, (sessionId, ))
+    user_id = cursor.fetchone()
+    if user_id is None:
+        return {"error": "sessionId is invalid"}, 400
+
+    stockData = yf.Ticker(ticker)
+    dictOfMoves = helpers.aoPeriod(stockData, startdate, enddate)
+    if dictOfMoves is None:
+        return {"error": "No data found for ticker"}, 400
+    return {"results": dictOfMoves}
