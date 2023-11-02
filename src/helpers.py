@@ -1,12 +1,11 @@
 import os
-import smaStrategy
-import aoStrategy
+import src.smaStrategy as smaStrategy
+import src.aoStrategy as aoStrategy
 import pandas as pd
 import pprint
 import holidays
-import backtester
-import vwapStrategy
-import yfinance as yf
+import src.backtester as backtester
+import src.vwapStrategy as vwapStrategy
 intro = """
 pytrading ver 0.0.1 by Haeohreum Kim
 Anything from pytrading shall not be misconstrued as financial advice.
@@ -147,11 +146,14 @@ def aoPeriod(tickerData, startDate, endDate):
     movingDate = pd.Timestamp(startDate)
     dictOfMoves = {}
     while movingDate != pd.Timestamp(endDate):
+        endDateMoving = pd.Timestamp(endDate)
+        print(f"{movingDate} -> {endDateMoving}")
         if is_business_day(pd.Timestamp(movingDate)) and is_public_holiday(
                 movingDate) is not True:
             action = aoStrategy.ao(tickerData, movingDate)
             dictOfMoves[movingDate.strftime("%Y-%m-%d")] = action
-            movingDate = movingDate + pd.Timedelta(days=1)
+
+        movingDate = movingDate + pd.Timedelta(days=1)
     return dictOfMoves
 
 

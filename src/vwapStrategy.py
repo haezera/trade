@@ -1,6 +1,5 @@
 import pandas as pd
-import yfinance as yf
-import smaStrategy as sma
+import src.smaStrategy as sma
 
 # Function: is_business_day
 # Description: This function will check if a given date is a business day

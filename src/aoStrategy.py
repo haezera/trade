@@ -1,5 +1,5 @@
 import pandas as pd
-from smaStrategy import calculateBusinessDays
+from src.smaStrategy import calculateBusinessDays
 
 
 def medianMA(tickerData, date, spread):
