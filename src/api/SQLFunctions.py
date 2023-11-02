@@ -43,6 +43,16 @@ SET password=%s
 WHERE id=%s
 """
 
+update_email = """
+UPDATE users
+SET email=%s
+WHERE id=%s
+"""
+
+print_table = """
+SELECT * FROM users
+"""
+
 delete_a_session = """
 DELETE FROM sessions WHERE session_id=%s
 """

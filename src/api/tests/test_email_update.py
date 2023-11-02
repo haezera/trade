@@ -16,5 +16,30 @@ def test_email_update_success():
     assert response.status_code == 200
     clear_all()
 
-def test_email_update_fail():
-    \
+
+def test_email_update_fail_password():
+    create_user()
+    session_id = app.test_client().put('/user/login', json={
+        "email": "haeohreum09@hotmail.com",
+        "password": "Password123"
+    }).json["session_id"]
+    response = app.test_client().put(f"/user/{session_id}/email/update", json={
+        "newEmail": "haeohreum04@gmail.com",
+        "password": "Password1234"
+    })
+    assert response.status_code == 400
+    clear_all()
+
+
+def test_email_update_fail_sessionid():
+    create_user()
+    app.test_client().put('/user/login', json={
+        "email": "haeohreum09@hotmail.com",
+        "password": "Password123"
+    })
+    response = app.test_client().put("/user/123/email/update", json={
+        "newEmail": "haeohreum04@gmail.com",
+        "password": "Password123"
+    })
+    assert response.status_code == 400
+    clear_all()
