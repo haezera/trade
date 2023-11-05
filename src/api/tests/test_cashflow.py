@@ -3,7 +3,7 @@ import src.api.tests.test_user_login as login
 from src.api.tests.clear_db import clear_all
 
 
-def tests_incomestmt_success():
+def tests_cashflow_success():
     login.create_user()
     session_id = app.test_client().put('/user/login', json={
         "email": "haeohreum09@hotmail.com",
@@ -17,7 +17,7 @@ def tests_incomestmt_success():
     clear_all()
 
 
-def tests_incomestmt_fail_ticker():
+def test_cashflow_fail_ticker():
     login.create_user()
     session_id = app.test_client().put('/user/login', json={
         "email": "haeohreum09@hotmail.com",
