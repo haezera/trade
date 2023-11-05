@@ -3,7 +3,7 @@ import mysql.connector
 import src.api.SQLFunctions as sqlf
 import src.api.auth as auth
 import src.stock as stock
-
+import src.helpers as helpers
 # SQL db connection
 db = mysql.connector.connect(
     host="localhost",
@@ -150,16 +150,111 @@ def email_update(sessionId):
 
 @app.route("/stock/<sessionId>/<ticker>/incomestmt", methods=["GET"])
 def getIncomeStmt(sessionId, ticker):
+    try:
+        cursor.execute(sqlf.fetch_user_id, (sessionId,))
+        user_id = cursor.fetchone()
+        if user_id is None:
+            return {"error": "sessionId is invalid"}, 400
+        user_id = user_id[0]
+        # Set up stock class
+        stockObj = stock.Stock(ticker)
+        # Get income statement
+        response = stockObj.incomeStmt()
+        if response.empty:
+            return {"error": "No data found for ticker"}, 400
+
+        return {"results": response.to_json()}
+    except Exception:
+        return {"error": "Invalid date format"}, 400
+
+
+@app.route("/stock/<sessionId>/<ticker>/balancesheet", methods=["GET"])
+def getBalanceSheet(sessionId, ticker):
+    try:
+        cursor.execute(sqlf.fetch_user_id, (sessionId,))
+        user_id = cursor.fetchone()
+        if user_id is None:
+            return {"error": "sessionId is invalid"}, 400
+        user_id = user_id[0]
+        # Set up stock class
+        stockObj = stock.Stock(ticker)
+        # Get income statement
+        response = stockObj.balanceSheet()
+        if response.empty:
+            return {"error": "No data found for ticker"}, 400
+
+        return {"results": response.to_json()}
+    except Exception:
+        return {"error": "Invalid date format"}, 400
+
+
+@app.route("/stock/<sessionId>/<ticker>/cashflow", methods=["GET"])
+def getCashFlow(sessionId, ticker):
+    try:
+        cursor.execute(sqlf.fetch_user_id, (sessionId,))
+        user_id = cursor.fetchone()
+        if user_id is None:
+            return {"error": "sessionId is invalid"}, 400
+        user_id = user_id[0]
+        # Set up stock class
+        stockObj = stock.Stock(ticker)
+        # Get income statement
+        response = stockObj.cashFlow()
+        if response.empty:
+            return {"error": "No data found for ticker"}, 400
+
+        return {"results": response.to_json()}
+    except Exception:
+        return {"error": "Invalid date format"}, 400
+
+
+@app.route("/stock/<sessionId>/<ticker>/historical", methods=["GET"])
+def getHistorical(sessionId, ticker):
+    startDate = request.args.get("startDate")
+    if startDate is None:
+        return {"error": "startDate is required"}, 400
+    endDate = request.args.get("endDate")
+    if endDate is None:
+        return {"error": "endDate is required"}, 400
+
     cursor.execute(sqlf.fetch_user_id, (sessionId,))
     user_id = cursor.fetchone()
     if user_id is None:
         return {"error": "sessionId is invalid"}, 400
     user_id = user_id[0]
+
     # Set up stock class
     stockObj = stock.Stock(ticker)
     # Get income statement
-    response = stockObj.incomeStmt()
+    response = stockObj.history(startDate, endDate)
     if response.empty:
         return {"error": "No data found for ticker"}, 400
 
     return {"results": response.to_json()}
+
+
+@app.route("/stock/<sessionId>/<ticker>/awsm", methods=["GET"])
+def getAwsm(sessionId, ticker):
+    try:
+        startDate = request.args.get("startDate")
+        if startDate is None:
+            return {"error": "startDate is required"}, 400
+        endDate = request.args.get("endDate")
+        if endDate is None:
+            return {"error": "endDate is required"}, 400
+
+        cursor.execute(sqlf.fetch_user_id, (sessionId,))
+        user_id = cursor.fetchone()
+        if user_id is None:
+            return {"error": "sessionId is invalid"}, 400
+        user_id = user_id[0]
+
+        # Set up stock class
+        stockObj = stock.Stock(ticker)
+        # Get income statement
+        response = helpers.aoPeriod(stockObj.data, startDate, endDate)
+        if response is None:
+            return {"error": "No data found for ticker"}, 400
+        return {"results": response}
+    except Exception:
+        return {"error": "Invalid stock"}, 400
