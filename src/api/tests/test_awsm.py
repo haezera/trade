@@ -36,6 +36,3 @@ def tests_incomestmt_fail_ticker():
         })
     assert response.status_code == 400
     clear_all()
-
-    assert response.status_code == 200
-    clear_all()

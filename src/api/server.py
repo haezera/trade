@@ -165,10 +165,9 @@ def getIncomeStmt(sessionId, ticker):
         response = stockObj.incomeStmt()
         if response.empty:
             return {"error": "No data found for ticker"}, 400
-
         return {"results": response.to_json()}
     except Exception:
-        return {"error": "Invalid date format"}, 400
+        return {"error": "Invalid stock"}, 400
 
 
 @app.route("/stock/<sessionId>/<ticker>/balancesheet", methods=["GET"])
@@ -185,10 +184,9 @@ def getBalanceSheet(sessionId, ticker):
         response = stockObj.balanceSheet()
         if response.empty:
             return {"error": "No data found for ticker"}, 400
-
         return {"results": response.to_json()}
     except Exception:
-        return {"error": "Invalid date format"}, 400
+        return {"error": "Invalid stock"}, 400
 
 
 @app.route("/stock/<sessionId>/<ticker>/cashflow", methods=["GET"])
@@ -205,35 +203,37 @@ def getCashFlow(sessionId, ticker):
         response = stockObj.cashFlow()
         if response.empty:
             return {"error": "No data found for ticker"}, 400
-
         return {"results": response.to_json()}
     except Exception:
-        return {"error": "Invalid date format"}, 400
+        return {"error": "Invalid stock"}, 400
 
 
 @app.route("/stock/<sessionId>/<ticker>/historical", methods=["GET"])
 def getHistorical(sessionId, ticker):
-    startDate = request.args.get("startDate")
-    if startDate is None:
-        return {"error": "startDate is required"}, 400
-    endDate = request.args.get("endDate")
-    if endDate is None:
-        return {"error": "endDate is required"}, 400
+    try:
+        startDate = request.args.get("startDate")
+        if startDate is None:
+            return {"error": "startDate is required"}, 400
+        endDate = request.args.get("endDate")
+        if endDate is None:
+            return {"error": "endDate is required"}, 400
 
-    cursor.execute(sqlf.fetch_user_id, (sessionId,))
-    user_id = cursor.fetchone()
-    if user_id is None:
-        return {"error": "sessionId is invalid"}, 400
-    user_id = user_id[0]
+        cursor.execute(sqlf.fetch_user_id, (sessionId,))
+        user_id = cursor.fetchone()
+        if user_id is None:
+            return {"error": "sessionId is invalid"}, 400
+        user_id = user_id[0]
 
-    # Set up stock class
-    stockObj = stock.Stock(ticker)
-    # Get income statement
-    response = stockObj.history(startDate, endDate)
-    if response.empty:
-        return {"error": "No data found for ticker"}, 400
+        # Set up stock class
+        stockObj = stock.Stock(ticker)
+        # Get income statement
+        response = stockObj.history(startDate, endDate)
+        if response.empty:
+            return {"error": "No data found for ticker"}, 400
 
-    return {"results": response.to_json()}
+        return {"results": response.to_json()}
+    except Exception:
+        return {"error": "Invalid stock"}, 400
 
 
 @app.route("/stock/<sessionId>/<ticker>/awsm", methods=["GET"])
@@ -263,57 +263,28 @@ def getAwsm(sessionId, ticker):
         return {"error": "Invalid stock"}, 400
 
 
-@app.route("/stock/<sessionId>/<ticker>/cashflow", methods=["GET"])
-def getCashFlow(sessionId, ticker):
-    cursor.execute(sqlf.fetch_user_id, (sessionId,))
-    user_id = cursor.fetchone()
-    if user_id is None:
-        return {"error": "sessionId is invalid"}, 400
-    user_id = user_id[0]
-    # Set up stock class
-    stockObj = stock.Stock(ticker)
-    # Get income statement
-    response = stockObj.cashFlow()
-    if response.empty:
-        del stockObj
-        return {"error": "No data found for ticker"}, 400
-    del stockObj
-    return {"results": response.to_json()}
+@app.route("/stock/<sessionId>/<ticker>/vwap", methods=["GET"])
+def getVwap(sessionId, ticker):
+    try:
+        startDate = request.args.get("startDate")
+        if startDate is None:
+            return {"error": "startDate is required"}, 400
+        endDate = request.args.get("endDate")
+        if endDate is None:
+            return {"error": "endDate is required"}, 400
 
+        cursor.execute(sqlf.fetch_user_id, (sessionId,))
+        user_id = cursor.fetchone()
+        if user_id is None:
+            return {"error": "sessionId is invalid"}, 400
+        user_id = user_id[0]
 
-@app.route(
-    "/stock/<sessionId>/<ticker>/historical/<startdate>/<enddate>",
-    methods=["GET"])
-def getHistorical(sessionId, ticker, startdate, enddate):
-    cursor.execute(sqlf.fetch_user_id, (sessionId,))
-    user_id = cursor.fetchone()
-    if user_id is None:
-        return {"error": "sessionId is invalid"}, 400
-
-    # Set up stock class
-    stockObj = stock.Stock(ticker)
-    # Get income statement
-
-    response = stockObj.history(startdate, enddate)
-    print(response)
-    if response.empty:
-        del stockObj
-        return {"error": "No data found for ticker"}, 400
-    del stockObj
-    return {"results": response.to_json()}
-
-
-@app.route(
-    "/stock/<sessionId>/<ticker>/awsm/<startdate>/<enddate>",
-    methods=["GET"])
-def getAwesome(sessionId, ticker, startdate, enddate):
-    cursor.execute(sqlf.fetch_user_id, (sessionId, ))
-    user_id = cursor.fetchone()
-    if user_id is None:
-        return {"error": "sessionId is invalid"}, 400
-
-    stockData = yf.Ticker(ticker)
-    dictOfMoves = helpers.aoPeriod(stockData, startdate, enddate)
-    if dictOfMoves is None:
-        return {"error": "No data found for ticker"}, 400
-    return {"results": dictOfMoves}
+        # Set up stock class
+        stockObj = stock.Stock(ticker)
+        # Get income statement
+        response = helpers.vwapPeriod(stockObj.data, startDate, endDate)
+        if response is None:
+            return {"error": "No data found for ticker"}, 400
+        return {"results": response}
+    except Exception:
+        return {"error": "Invalid stock"}, 400

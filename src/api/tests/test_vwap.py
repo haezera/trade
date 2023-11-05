@@ -2,7 +2,8 @@ from src.api.server import app
 import src.api.tests.test_user_login as login
 from src.api.tests.clear_db import clear_all
 
-def test_historical_success():
+
+def test_vwap_success():
     login.create_user()
     session_id = app.test_client().put('/user/login', json={
         "email": "haeohreum09@hotmail.com",
@@ -10,7 +11,7 @@ def test_historical_success():
     }).json["session_id"]
     ticker = "AAPL"
     response = app.test_client().get(
-        f"/stock/{session_id}/{ticker}/historical",
+        f"/stock/{session_id}/{ticker}/vwap",
         query_string={
             "startDate": "2020-01-01",
             "endDate": "2020-01-10"
@@ -20,7 +21,7 @@ def test_historical_success():
     clear_all()
 
 
-def test_historical_ticker_fail():
+def tests_incomestmt_fail_ticker():
     login.create_user()
     session_id = app.test_client().put('/user/login', json={
         "email": "haeohreum09@hotmail.com",
@@ -28,18 +29,10 @@ def test_historical_ticker_fail():
     }).json["session_id"]
     ticker = "AASDSADSADSADSA"
     response = app.test_client().get(
-        f"/stock/{session_id}/{ticker}/historical",
+        f"/stock/{session_id}/{ticker}/vwap",
         query_string={
             "startDate": "2020-01-01",
             "endDate": "2020-01-10"
         })
-    ticker = "AAPLadsadadsada"
-    response = app.test_client().get(
-        f"/stock/{session_id}/{ticker}/historical",
-        query_string={
-            "startDate": "2020-01-01",
-            "endDate": "2020-01-10"
-        })
-
     assert response.status_code == 400
     clear_all()
