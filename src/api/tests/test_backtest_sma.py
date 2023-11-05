@@ -3,7 +3,7 @@ import src.api.tests.test_user_login as login
 from src.api.tests.clear_db import clear_all
 
 
-def test_vwap_success():
+def test_sma_backtest_success():
     login.create_user()
     session_id = app.test_client().put('/user/login', json={
         "email": "haeohreum09@hotmail.com",
@@ -11,7 +11,7 @@ def test_vwap_success():
     }).json["session_id"]
     ticker = "AAPL"
     response = app.test_client().get(
-        f"/stock/{session_id}/{ticker}/vwap",
+        f"/stock/backtester/{session_id}/{ticker}/sma",
         query_string={
             "startDate": "2020-01-01",
             "endDate": "2020-01-10"
@@ -21,7 +21,7 @@ def test_vwap_success():
     clear_all()
 
 
-def tests_vwap_fail():
+def tests_sma_backtest_fail():
     login.create_user()
     session_id = app.test_client().put('/user/login', json={
         "email": "haeohreum09@hotmail.com",
@@ -29,7 +29,7 @@ def tests_vwap_fail():
     }).json["session_id"]
     ticker = "AASDSADSADSADSA"
     response = app.test_client().get(
-        f"/stock/{session_id}/{ticker}/vwap",
+        f"/stock/backtester/{session_id}/{ticker}/sma",
         query_string={
             "startDate": "2020-01-01",
             "endDate": "2020-01-10"
