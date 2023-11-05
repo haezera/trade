@@ -147,7 +147,6 @@ def aoPeriod(tickerData, startDate, endDate):
     dictOfMoves = {}
     while movingDate != pd.Timestamp(endDate):
         endDateMoving = pd.Timestamp(endDate)
-        print(f"{movingDate} -> {endDateMoving}")
         if is_business_day(pd.Timestamp(movingDate)) and is_public_holiday(
                 movingDate) is not True:
             action = aoStrategy.ao(tickerData, movingDate)

@@ -1,6 +1,7 @@
 import pandas as pd
 import src.smaStrategy as sma
 
+
 # Function: is_business_day
 # Description: This function will check if a given date is a business day
 # Input: date - the date to check if it is a business day
@@ -17,13 +18,12 @@ def is_business_day(date):
 #        endDate - the end date for the median average price
 # Output: medianAveragePrice - the median average price for the given ticker
 def averagePrice(tickerData, startDate, endDate):
-    try: 
+    try:
         historicalData = tickerData.history(
             start=pd.Timestamp(startDate),
             end=pd.Timestamp(endDate)
         )
-        lowSum = 0 
-        closeSum = 0
+        lowSum = 0
         highSum = 0
 
         # Iterate through dataframe and add to opensum, closesum and highsum
@@ -36,7 +36,7 @@ def averagePrice(tickerData, startDate, endDate):
     except Exception as e:
         print(e)
 
-    
+
 # Function: vwapPriceAndVolumeSum
 # Description: This function will calculate the vwap strategy for a given ticker
 # Input: tickerData - the ticker data for the given ticker
@@ -75,7 +75,7 @@ def vwapPriceAndVolumeSum(tickerData, startDate, endDate):
 # Output: vwapPriceSum - the vwap price sum for the given ticker
 #         volumeSum - the volume sum for the given ticker
 def vwapStrategy(tickerData, date):
-    try: 
+    try:
         # Find the three day vwap strategy and compare to the median price
         # which we define as (open + high + close) / 3
         # If the vwap price sum is greater than the median price, then we buy
@@ -105,5 +105,4 @@ def vwapStrategy(tickerData, date):
             return 'HOLD'
 
     except Exception as e:
-        print(e)
-
+        raise e
