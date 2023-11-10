@@ -1,7 +1,6 @@
 # _pytrading_ (0.2.0)
 
 ![example workflow](https://github.com/haezera/pytrading/actions/workflows/python-app.yml/badge.svg)\
-**warning: anything within pytrading shall not be miscontrued as financial advice.**\ 
 **note: development has currently been paused as of 10/11/2023, as I work on some other projects. API should be semi-functional, and the TUI app should be also functional. Please keep a lookout for the web-app release!**
 ## _about_
 trade is an algorithmic trading helper.
