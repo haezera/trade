@@ -8,7 +8,11 @@ const Signup = () => {
       </center>
       <hr />
       <div className="center">
-        <form id="signUpForm">
+        <form
+          id="signUpForm"
+          method="POST"
+          action="http://localhost:5000/user/register"
+        >
           <label htmlFor="firstName">First Name</label>
           <br />
           <input type="text"></input>
