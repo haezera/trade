@@ -8,17 +8,17 @@ const Signup = () => {
       </center>
       <hr />
       <div className="center">
-        <form>
-          <label htmlFor="fname">First Name</label>
+        <form action="http://localhost:5000/user/register">
+          <label htmlFor="firstName">First Name</label>
           <br />
           <input type="text"></input>
-          <label htmlFor="lname">Last Name</label>
+          <label htmlFor="lastName">Last Name</label>
           <br />
           <input type="text"></input>
           <label htmlFor="email">Email</label>
           <br />
           <input type="text"></input>
-          <label htmlFor="lname">Password</label>
+          <label htmlFor="password">Password</label>
           <br />
           <input type="password"></input>
           <input type="submit" value="Submit"></input>

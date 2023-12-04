@@ -14,6 +14,7 @@ const App = () => {
             <Link to="/about">news</Link>
             <Link to="/signup">signup</Link>
             <Link to="/contact">contact us</Link>
+            <Link to="/aboutus">about us</Link>
           </div>
         </div>
         <Routes>
