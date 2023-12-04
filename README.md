@@ -1,7 +1,7 @@
-# _trade_ (0.2.0)
+# _trade_ (0.2.1)
 
 ![example workflow](https://github.com/haezera/pytrading/actions/workflows/python-app.yml/badge.svg)\
-**note: development has currently been paused as of 10/11/2023, as I work on some other projects. API should be semi-functional, and the TUI app should be also functional. Please keep a lookout for the web-app release!**
+**note: development has restarted as of 04/12/2023! I'm working hard everyday to try and get the front end finished (this is my first time doing front end). Thus, I have versioned the newest push as 0.2.1, the start of the web app development.**
 ## _about_
 trade is an algorithmic trading helper.
 
