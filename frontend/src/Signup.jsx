@@ -8,7 +8,7 @@ const Signup = () => {
       </center>
       <hr />
       <div className="center">
-        <form action="http://localhost:5000/user/register">
+        <form id="signUpForm">
           <label htmlFor="firstName">First Name</label>
           <br />
           <input type="text"></input>
