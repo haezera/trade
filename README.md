@@ -12,6 +12,12 @@ trade is an algorithmic trading helper.
 <details closed>
 <summary> Versions </summary>
 <details closed>
+<summary>0.2</summary>
+  <ul>
+    <li> Routes completed </li>
+    <li> API functional/semi-functional </li>
+  </ul>
+</details>
 <summary>0.1.2</summary>
   <ul>
     <li> Major user routes completed </li>
