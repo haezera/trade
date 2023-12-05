@@ -4,6 +4,7 @@ import src.api.SQLFunctions as sqlf
 import src.api.auth as auth
 import src.stock as stock
 import src.helpers as helpers
+import src.backtester as bt
 # SQL db connection
 db = mysql.connector.connect(
     host="localhost",
@@ -313,32 +314,30 @@ def getVwap(sessionId, ticker):
     except Exception:
         return {"error": "Invalid stock"}, 400
 
-"""
 @app.route("/stock/backtester/<sessionId>/<ticker>/sma", methods=["GET"])
 def backtestAwsm(sessionId, ticker):
-    try:
-        startDate = request.args.get("startDate")
-        if startDate is None:
-            return {"error": "startDate is required"}, 400
-        endDate = request.args.get("endDate")
-        if endDate is None:
-            return {"error": "endDate is required"}, 400
+    startDate = request.args.get("startDate")
+    if startDate is None:
+        return {"error": "startDate is required"}, 400
+    endDate = request.args.get("endDate")
+    if endDate is None:
+        return {"error": "endDate is required"}, 400
 
-        cursor.execute(sqlf.fetch_user_id, (sessionId,))
-        user_id = cursor.fetchone()
-        if user_id is None:
-            return {"error": "sessionId is invalid"}, 400
-        user_id = user_id[0]
+    numberOfStock = request.args.get("numberOfStock")
+    if numberOfStock is None:
+        return {"error": "endDate is required"}, 400
+    numberOfStock = int(numberOfStock)
 
-        # Set up stock class
-        stockObj = stock.Stock(ticker)
-        # Get income statement
-        response = helpers.smaPeriod(stockObj.data, startDate, endDate)
-        print(response)
-        response = bt.backTester(stock.data, response)
-        if response is None:
-            return {"error": "No data found for ticker"}, 400
-        return {"results": response}
-    except Exception:
-        return {"error": "Invalid stock"}, 400
-"""
+    cursor.execute(sqlf.fetch_user_id, (sessionId,))
+    user_id = cursor.fetchone()
+    if user_id is None:
+        return {"error": "sessionId is invalid"}, 400
+    user_id = user_id[0]
+
+    # Set up stock class
+    stockObj = stock.Stock(ticker)
+    # Get income statement  
+    response = helpers.smaPeriod(stockObj.data, startDate, endDate)
+    print(response)
+    response = bt.backTesterAPI(stockObj.data, response, numberOfStock)
+    return {"results": response}

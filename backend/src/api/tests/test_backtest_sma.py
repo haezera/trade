@@ -14,9 +14,10 @@ def test_sma_backtest_success():
         f"/stock/backtester/{session_id}/{ticker}/sma",
         query_string={
             "startDate": "2020-01-01",
-            "endDate": "2020-01-10"
+            "endDate": "2020-01-10",
+            "numberOfStock": "1"
         })
-
+    print(response.data)
     assert response.status_code == 200
     clear_all()
 
@@ -25,7 +26,8 @@ def tests_sma_backtest_fail():
     login.create_user()
     session_id = app.test_client().put('/user/login', json={
         "email": "haeohreum09@hotmail.com",
-        "password": "Password123"
+        "password": "Password123",
+        "numberOfStock": "1"
     }).json["session_id"]
     ticker = "AASDSADSADSADSA"
     response = app.test_client().get(
