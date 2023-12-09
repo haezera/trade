@@ -4,6 +4,7 @@ import "./style.css";
 import Home from "./Home";
 import Signup from "./Signup";
 import Signin from "./Signin";
+import About from "./About";
 const App = () => {
   return (
     <Router>
@@ -16,12 +17,14 @@ const App = () => {
             <Link to="/signin">sign in</Link>
             <Link to="/contact">contact us</Link>
             <Link to="/aboutus">about us</Link>
+            <Link to="/stock">stock lookup</Link>
           </div>
         </div>
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="/signin" element={<Signin />}></Route>
+          <Route path="/aboutus" element={<About />}></Route>
         </Routes>
       </div>
     </Router>
