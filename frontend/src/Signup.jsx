@@ -23,7 +23,6 @@ const Signup = () => {
           password: password,
         }),
       });
-      console.log("New session:" + res);
       if (res.status === 200) {
         setFirstName("");
         setLastName("");

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./style.css";
 import Home from "./Home";
 import Signup from "./Signup";
-
+import Signin from "./Signin";
 const App = () => {
   return (
     <Router>
@@ -12,7 +12,8 @@ const App = () => {
           <div className="navbar">
             <Link to="/">home</Link>
             <Link to="/about">news</Link>
-            <Link to="/signup">signup</Link>
+            <Link to="/signup">sign up</Link>
+            <Link to="/signin">sign in</Link>
             <Link to="/contact">contact us</Link>
             <Link to="/aboutus">about us</Link>
           </div>
@@ -20,6 +21,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
+          <Route path="/signin" element={<Signin />}></Route>
         </Routes>
       </div>
     </Router>

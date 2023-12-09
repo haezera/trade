@@ -175,11 +175,12 @@ def getIncomeStmt(sessionId, ticker):
 @app.route("/stock/<sessionId>/<ticker>/balancesheet", methods=["GET"])
 def getBalanceSheet(sessionId, ticker):
     try:
-        cursor.execute(sqlf.fetch_user_id, (sessionId,))
-        user_id = cursor.fetchone()
-        if user_id is None:
-            return {"error": "sessionId is invalid"}, 400
-        user_id = user_id[0]
+        if sessionId != "bypass":
+            cursor.execute(sqlf.fetch_user_id, (sessionId,))
+            user_id = cursor.fetchone()
+            if user_id is None:
+                return {"error": "sessionId is invalid"}, 400
+            user_id = user_id[0]
         # Set up stock class
         stockObj = stock.Stock(ticker)
         # Get income statement
@@ -194,11 +195,12 @@ def getBalanceSheet(sessionId, ticker):
 @app.route("/stock/<sessionId>/<ticker>/cashflow", methods=["GET"])
 def getCashFlow(sessionId, ticker):
     try:
-        cursor.execute(sqlf.fetch_user_id, (sessionId,))
-        user_id = cursor.fetchone()
-        if user_id is None:
-            return {"error": "sessionId is invalid"}, 400
-        user_id = user_id[0]
+        if sessionId != "bypass":
+            cursor.execute(sqlf.fetch_user_id, (sessionId,))
+            user_id = cursor.fetchone()
+            if user_id is None:
+                return {"error": "sessionId is invalid"}, 400
+            user_id = user_id[0]
         # Set up stock class
         stockObj = stock.Stock(ticker)
         # Get income statement
@@ -219,12 +221,12 @@ def getHistorical(sessionId, ticker):
         endDate = request.args.get("endDate")
         if endDate is None:
             return {"error": "endDate is required"}, 400
-
-        cursor.execute(sqlf.fetch_user_id, (sessionId,))
-        user_id = cursor.fetchone()
-        if user_id is None:
-            return {"error": "sessionId is invalid"}, 400
-        user_id = user_id[0]
+        if sessionId != "bypass":
+            cursor.execute(sqlf.fetch_user_id, (sessionId,))
+            user_id = cursor.fetchone()
+            if user_id is None:
+                return {"error": "sessionId is invalid"}, 400
+            user_id = user_id[0]
 
         # Set up stock class
         stockObj = stock.Stock(ticker)
@@ -248,11 +250,12 @@ def getSma(sessionId, ticker):
         if endDate is None:
             return {"error": "endDate is required"}, 400
 
-        cursor.execute(sqlf.fetch_user_id, (sessionId,))
-        user_id = cursor.fetchone()
-        if user_id is None:
-            return {"error": "sessionId is invalid"}, 400
-        user_id = user_id[0]
+        if sessionId != "bypass":
+            cursor.execute(sqlf.fetch_user_id, (sessionId,))
+            user_id = cursor.fetchone()
+            if user_id is None:
+                return {"error": "sessionId is invalid"}, 400
+            user_id = user_id[0]
 
         # Set up stock class
         stockObj = stock.Stock(ticker)
@@ -275,11 +278,12 @@ def getAwsm(sessionId, ticker):
         if endDate is None:
             return {"error": "endDate is required"}, 400
 
-        cursor.execute(sqlf.fetch_user_id, (sessionId,))
-        user_id = cursor.fetchone()
-        if user_id is None:
-            return {"error": "sessionId is invalid"}, 400
-        user_id = user_id[0]
+        if sessionId != "bypass":
+            cursor.execute(sqlf.fetch_user_id, (sessionId,))
+            user_id = cursor.fetchone()
+            if user_id is None:
+                return {"error": "sessionId is invalid"}, 400
+            user_id = user_id[0]
 
         # Set up stock class
         stockObj = stock.Stock(ticker)
@@ -302,11 +306,12 @@ def getVwap(sessionId, ticker):
         if endDate is None:
             return {"error": "endDate is required"}, 400
 
-        cursor.execute(sqlf.fetch_user_id, (sessionId,))
-        user_id = cursor.fetchone()
-        if user_id is None:
-            return {"error": "sessionId is invalid"}, 400
-        user_id = user_id[0]
+        if sessionId != "bypass":
+            cursor.execute(sqlf.fetch_user_id, (sessionId,))
+            user_id = cursor.fetchone()
+            if user_id is None:
+                return {"error": "sessionId is invalid"}, 400
+            user_id = user_id[0]
 
         # Set up stock class
         stockObj = stock.Stock(ticker)
@@ -332,11 +337,12 @@ def backtestAwsm(sessionId, ticker):
         return {"error": "endDate is required"}, 400
     numberOfStock = int(numberOfStock)
 
-    cursor.execute(sqlf.fetch_user_id, (sessionId,))
-    user_id = cursor.fetchone()
-    if user_id is None:
-        return {"error": "sessionId is invalid"}, 400
-    user_id = user_id[0]
+    if sessionId != "bypass":
+        cursor.execute(sqlf.fetch_user_id, (sessionId,))
+        user_id = cursor.fetchone()
+        if user_id is None:
+            return {"error": "sessionId is invalid"}, 400
+        user_id = user_id[0]
 
     # Set up stock class
     stockObj = stock.Stock(ticker)
