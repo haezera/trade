@@ -1,4 +1,5 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request
+from flask_cors import CORS
 import mysql.connector
 import src.api.SQLFunctions as sqlf
 import src.api.auth as auth
@@ -32,6 +33,7 @@ CREATE TABLE sessions (
 )
 """)
 app = Flask(__name__)
+CORS(app, resources={'/*':{'origins': 'http://localhost:5174'}}) 
 
 
 @app.route("/", methods=["GET"])
@@ -66,6 +68,8 @@ def clear():
 @app.route("/user/register", methods=["POST"])
 def userRegister():
     body = request.json
+    print(body)
+    print("We got here from the front end!")
     response = auth.userRegister(
         body["firstName"],
         body["lastName"],
