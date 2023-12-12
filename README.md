@@ -1,7 +1,13 @@
 # _trade_ (0.2.1)
 
 ![example workflow](https://github.com/haezera/pytrading/actions/workflows/python-app.yml/badge.svg)\
-**note: development has restarted as of 04/12/2023! I'm working hard everyday to try and get the front end finished (this is my first time doing front end). Thus, I have versioned the newest push as 0.2.1, the start of the web app development.**
+**note: development has stopped indefinitely for this project. the following features were completed.**
+<ul>
+  <li> Fully working CLI app </li>
+  <li> Functional React front end, that succesfully fetched API information </li>
+  <li> Backtesting ability with different strategies </li>
+  <li> Analysis of NASDAQ and NYSE tickers.</li>
+</ul>
 ## _about_
 trade is an algorithmic trading helper.
 
