@@ -8,6 +8,7 @@
   <li> Backtesting ability with different strategies </li>
   <li> Analysis of NASDAQ and NYSE tickers.</li>
 </ul>
+
 ## _about_
 trade is an algorithmic trading helper.
 
@@ -69,20 +70,4 @@ Full Stack React/Flask Application:
 <ul>
   <li>Routes currently being completed</li>
   <li>mySQL server initialisation and helper queries created</li>
-</ul>
-
-## _planned features_
-By version 1.0.0, the following features will be integrated:
-<ul>
-  <li>Live trading feature, where traders can get more information minute by minute.</li>
-  <li>The implementation of my own trading algorithm (check out the research paper!)</li>
-  <li>Be a REST API that interacts with a frontend (probably a JavaScript one)</li>
-  <li>Stock graphing; graphing of strategies (akin to yahoo finance)</li>
-</ul>
-
-Some longer term goals are:
-<ul>
-  <li>Web-scraping sentiment-analysis</li>
-  <li>Pairs trading using faster live analysis of two correlated assets</li>
-  <li>Execution system using some sort of trading platform (to be decided)</li>
 </ul>
